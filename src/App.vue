@@ -23,9 +23,6 @@ export default {
   },
   methods: {
     logout () {
-      this.$store.commit('setuserinfo', {})
-      this.$store.commit('setisAdmin', false)
-      this.$store.commit('setisLogin', false)
       this.$router.push({
         name: 'login'
       })

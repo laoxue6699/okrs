@@ -32,7 +32,6 @@
        </div>
      </div>
      <mt-button class="submit" size="large" type="primary" @click.native="goAddOkrs">添加okr</mt-button>
-     <mt-button class="submit" size="large" type="primary" @click.native="goUpdatePassword">修改密码</mt-button>
   </div>
 </template>
 

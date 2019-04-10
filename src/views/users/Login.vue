@@ -46,6 +46,9 @@ export default {
   },
   created () {
     this.getDepartments()
+    this.$store.commit('setuserinfo', {})
+    this.$store.commit('setisAdmin', false)
+    this.$store.commit('setisLogin', false)
   },
   methods: {
     getDepartments () {
