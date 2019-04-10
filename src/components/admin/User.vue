@@ -33,60 +33,60 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
-      id: "",
-      username: "",
-      department: "",
-      password: "",
+      id: '',
+      username: '',
+      department: '',
+      password: '',
       roles: [],
-      email: "",
+      email: '',
       userList: [],
       isShowUserList: false,
       isShowUser: false
-    };
+    }
   },
-  created() {
-    this.getUsers();
+  created () {
+    this.getUsers()
   },
   methods: {
-    getUsers() {
+    getUsers () {
       this.$axios
         .get("/users?filter[order]='department'")
         .then(response => {
-          console.log(response);
-          this.userList = response.data;
+          console.log(response)
+          this.userList = response.data
         })
-        .catch(function(error) {
-          console.log(error);
-        });
+        .catch(function (error) {
+          console.log(error)
+        })
     },
-    showUserList() {
-      this.isShowUserList = !this.isShowUserList;
+    showUserList () {
+      this.isShowUserList = !this.isShowUserList
       //   this.isAddRole = !this.isAddRole;
     },
-    updateUser(item) {
-      let userinfo = item;
+    updateUser (item) {
+      let userinfo = item
       this.$router.push({
-        name: "updateUser",
+        name: 'updateUser',
         params: userinfo
-      });
+      })
     },
-    showUser(data) {
-      this.isShowUser = true;
-      this.isShowUserList = false;
-      this.username = data.username;
-      this.department = data.department;
-      this.password = data.password;
-      this.roles = data.roles;
-      this.email = data.email;
+    showUser (data) {
+      this.isShowUser = true
+      this.isShowUserList = false
+      this.username = data.username
+      this.department = data.department
+      this.password = data.password
+      this.roles = data.roles
+      this.email = data.email
       setTimeout(() => {
-        this.isShowUser = false;
-        this.isShowUserList = true;
-      }, 3000);
+        this.isShowUser = false
+        this.isShowUserList = true
+      }, 3000)
     }
   }
-};
+}
 </script>
 
 <style scoped>

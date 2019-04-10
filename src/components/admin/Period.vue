@@ -40,12 +40,12 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       isShowPeriodList: false,
       isAddPeriod: false,
       isUpdatePeriod: false,
-      period: "",
+      period: '',
       periodList: [],
       popupVisible1: false,
       popupVisible2: false,
@@ -53,130 +53,130 @@ export default {
       index: -999,
       itemId: 0,
       periodData: {}
-    };
+    }
   },
-  created() {
-    this.getPeriods();
+  created () {
+    this.getPeriods()
   },
   methods: {
-    getPeriods() {
+    getPeriods () {
       this.$axios
-        .get("/periods")
+        .get('/periods')
         .then(response => {
-          console.log(response);
-          this.periodList = response.data;
+          console.log(response)
+          this.periodList = response.data
           if (this.periodList.length > 0) {
-            this.periodId = this.periodList[this.periodList.length - 1].id;
+            this.periodId = this.periodList[this.periodList.length - 1].id
           } else {
-            this.periodId = 0;
+            this.periodId = 0
           }
-          console.log("this.periodId = ", this.periodId);
+          console.log('this.periodId = ', this.periodId)
         })
-        .catch(function(error) {
-          console.log(error);
-        });
+        .catch(function (error) {
+          console.log(error)
+        })
     },
-    savePeriod() {
+    savePeriod () {
       this.$axios
-        .post("/periods", this.periodData)
-        .then(function(response) {
-          console.log(response);
+        .post('/periods', this.periodData)
+        .then(function (response) {
+          console.log(response)
         })
-        .catch(function(error) {
-          console.log(error);
-        });
+        .catch(function (error) {
+          console.log(error)
+        })
     },
-    showPeriodList() {
-      this.isShowPeriodList = !this.isShowPeriodList;
-      this.isAddPeriod = !this.isAddPeriod;
+    showPeriodList () {
+      this.isShowPeriodList = !this.isShowPeriodList
+      this.isAddPeriod = !this.isAddPeriod
     },
-    showAddPeriod() {
-      this.isAddPeriod = true;
+    showAddPeriod () {
+      this.isAddPeriod = true
     },
-    addPeriod() {
+    addPeriod () {
       if (this.period.length > 0) {
-        let data = {};
-        this.periodId += 1;
-        data.id = this.periodId;
-        data.item = this.period;
-        this.periodData = JSON.stringify(data);
-        this.periodList.push(data);
-        this.savePeriod();
-        this.period = "";
+        let data = {}
+        this.periodId += 1
+        data.id = this.periodId
+        data.item = this.period
+        this.periodData = JSON.stringify(data)
+        this.periodList.push(data)
+        this.savePeriod()
+        this.period = ''
       } else {
-        this.popupVisible1 = true;
+        this.popupVisible1 = true
         setTimeout(() => {
-          this.popupVisible1 = false;
-        }, 2000);
+          this.popupVisible1 = false
+        }, 2000)
       }
     },
-    delPeriod(index, id) {
-      this.popupVisible2 = true;
-      this.index = index;
-      this.itemId = id;
+    delPeriod (index, id) {
+      this.popupVisible2 = true
+      this.index = index
+      this.itemId = id
     },
-    delPeriodYes() {
-      console.log("deleted!");
-      this.periodList.splice(this.index, 1);
+    delPeriodYes () {
+      console.log('deleted!')
+      this.periodList.splice(this.index, 1)
       this.$axios
         .delete(`/periods/${this.itemId}`)
         .then(response => {
-          console.log(response);
+          console.log(response)
           if (this.periodList.length > 0) {
-            this.periodId = this.periodList[this.periodList.length - 1].id;
+            this.periodId = this.periodList[this.periodList.length - 1].id
           } else {
-            this.periodId = 0;
+            this.periodId = 0
           }
         })
-        .catch(function(error) {
-          console.log(error);
-        });
-      this.popupVisible2 = false;
+        .catch(function (error) {
+          console.log(error)
+        })
+      this.popupVisible2 = false
     },
-    delPeriodNo() {
-      this.popupVisible2 = false;
+    delPeriodNo () {
+      this.popupVisible2 = false
     },
-    updatePeriod(index, id) {
-      this.isUpdatePeriod = true;
-      this.isAddPeriod = false;
-      this.index = index;
-      this.itemId = id;
+    updatePeriod (index, id) {
+      this.isUpdatePeriod = true
+      this.isAddPeriod = false
+      this.index = index
+      this.itemId = id
     },
-    updatePeriodYes() {
-      console.log("updated!");
+    updatePeriodYes () {
+      console.log('updated!')
       // 更新的业务逻辑
       if (this.period.length > 0) {
-        this.periodList[this.index].item = this.period;
-        let data = {};
-        data.id = this.periodId;
-        data.item = this.period;
-        this.periodData = JSON.stringify(data);
+        this.periodList[this.index].item = this.period
+        let data = {}
+        data.id = this.periodId
+        data.item = this.period
+        this.periodData = JSON.stringify(data)
         this.$axios
           .patch(`/periods/${this.itemId}`, this.periodData)
           .then(response => {
-            console.log(response);
+            console.log(response)
           })
-          .catch(function(error) {
-            console.log(error);
-          });
+          .catch(function (error) {
+            console.log(error)
+          })
       } else {
-        this.popupVisible3 = true;
+        this.popupVisible3 = true
         setTimeout(() => {
-          this.popupVisible3 = false;
-        }, 2000);
+          this.popupVisible3 = false
+        }, 2000)
       }
 
-      this.isAddPeriod = true;
-      this.isUpdatePeriod = false;
-      this.period = "";
+      this.isAddPeriod = true
+      this.isUpdatePeriod = false
+      this.period = ''
     },
-    updatePeriodNo() {
-      this.isAddPeriod = true;
-      this.isUpdatePeriod = false;
-      this.period = "";
+    updatePeriodNo () {
+      this.isAddPeriod = true
+      this.isUpdatePeriod = false
+      this.period = ''
     }
   }
-};
+}
 </script>
 
 <style scoped>

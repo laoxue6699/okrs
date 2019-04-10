@@ -24,103 +24,98 @@
       <mt-button class="submit" size="large" type="primary" @click.native="submit">确定</mt-button>
       <mt-button class="submit" size="large" type="primary" @click.native="cancel">取消</mt-button>
     </div>
-    </div>
-
-
-
-    
   </div>
 </template>
 
 <script>
 export default {
-  name: "UpdatePassword",
-  data() {
+  name: 'UpdatePassword',
+  data () {
     return {
-      id: "",
-      username: "",
-      department: "",
-      password: "",
+      id: '',
+      username: '',
+      department: '',
+      password: '',
       roles: [],
-      email: "",
-      oldpass: "",
-      newpass1: "",
-      newpass2: "",
+      email: '',
+      oldpass: '',
+      newpass1: '',
+      newpass2: '',
       popupVisible1: false,
       errorMsg: [],
       showErrorMsg: false
-    };
+    }
   },
-  created() {
+  created () {
     if (this.$store.state.userinfo.length > 0) {
-      console.log("userinfo:", this.$store.state.userinfo);
-      let userinfo = this.$store.state.userinfo[0];
-      this.id = userinfo.id;
-      this.username = userinfo.username;
-      this.department = userinfo.department;
-      this.password = userinfo.password;
-      this.roles = userinfo.roles;
-      this.email = userinfo.email;
+      console.log('userinfo:', this.$store.state.userinfo)
+      let userinfo = this.$store.state.userinfo[0]
+      this.id = userinfo.id
+      this.username = userinfo.username
+      this.department = userinfo.department
+      this.password = userinfo.password
+      this.roles = userinfo.roles
+      this.email = userinfo.email
     } else {
       this.$router.push({
-        name: "login"
-      });
+        name: 'login'
+      })
     }
   },
   methods: {
-    submit() {
-      if (this.oldpass === "") {
-        this.errorMsg.push("当前密码内容不能为空！");
+    submit () {
+      if (this.oldpass === '') {
+        this.errorMsg.push('当前密码内容不能为空！')
       }
-      if (this.newpass1 === "") {
-        this.errorMsg.push("新密码内容不能为空！");
+      if (this.newpass1 === '') {
+        this.errorMsg.push('新密码内容不能为空！')
       }
-      if (this.newpass2 === "") {
-        this.errorMsg.push("再次输入密码内容不能为空！");
+      if (this.newpass2 === '') {
+        this.errorMsg.push('再次输入密码内容不能为空！')
       }
       if (this.oldpass !== this.password) {
-        this.errorMsg.push("当前密码输入错误！");
+        this.errorMsg.push('当前密码输入错误！')
       }
       if (this.errorMsg.length > 0) {
-        this.showErrorMsg = true;
+        this.showErrorMsg = true
         setTimeout(() => {
-          this.showErrorMsg = false;
-          this.errorMsg = [];
-        }, 3000);
+          this.showErrorMsg = false
+          this.errorMsg = []
+        }, 3000)
       } else {
-        console.log("验证通过！");
-        //提交修改
-        this.password = this.newpass1;
-        let userinfo = {};
-        userinfo.id = this.id;
-        userinfo.department = this.department;
-        userinfo.username = this.username;
-        userinfo.password = this.password;
-        userinfo.roles = this.roles;
-        userinfo.email = this.email;
-        let data = JSON.stringify(userinfo);
-        console.log(data);
+        console.log('验证通过！')
+        // 提交修改
+        this.password = this.newpass1
+        let userinfo = {}
+        userinfo.id = this.id
+        userinfo.department = this.department
+        userinfo.username = this.username
+        userinfo.password = this.password
+        userinfo.roles = this.roles
+        userinfo.email = this.email
+        let data = JSON.stringify(userinfo)
+        console.log(data)
         this.$axios
           .patch(`/users/${this.id}`, data)
           .then(response => {
-            console.log("密码已修改！");
-            //重置当前用户信息
-            this.$store.commit("setuserinfo", userinfo);
-            console.log("userinfo:", userinfo);
-            this.cancel();
+            console.log('密码已修改！')
+            // 重置当前用户信息
+            this.$store.commit('setuserinfo', userinfo)
+            console.log('userinfo:', userinfo)
+            this.cancel()
           })
-          .catch(function(error) {
-            console.log(error);
-          });
+          .catch(function (error) {
+            console.log(error)
+          })
       }
     },
-    cancel() {
+    cancel () {
       this.$router.push({
-        name: "home"
-      });
+        name: 'home'
+      })
     }
   }
-};
+}
 </script>
 
 <style scoped>

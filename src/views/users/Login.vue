@@ -29,63 +29,63 @@
 
 <script>
 export default {
-  name: "Login",
-  data() {
+  name: 'Login',
+  data () {
     return {
-      id: "",
-      username: "",
-      department: "",
-      password: "",
+      id: '',
+      username: '',
+      department: '',
+      password: '',
       roles: [],
-      email: "",
+      email: '',
       popupVisible1: false,
       errorMsg: [],
       showErrorMsg: false,
       optionsDepartment: []
-    };
+    }
   },
-  created() {
-    this.getDepartments();
+  created () {
+    this.getDepartments()
   },
   methods: {
-    getDepartments() {
+    getDepartments () {
       this.$axios
-        .get("/departments")
+        .get('/departments')
         .then(response => {
-          console.log(response.data);
-          this.departmentList = response.data;
-          let data = response.data;
-          let values = [];
+          console.log(response.data)
+          this.departmentList = response.data
+          let data = response.data
+          let values = []
           for (let i = 0; i < data.length; i++) {
-            values.push(data[i].item);
+            values.push(data[i].item)
           }
-          this.optionsDepartment = values;
+          this.optionsDepartment = values
         })
-        .catch(function(error) {
-          console.log(error);
-        });
+        .catch(function (error) {
+          console.log(error)
+        })
     },
-    selectDepartment() {
-      this.popupVisible1 = !this.popupVisible1;
+    selectDepartment () {
+      this.popupVisible1 = !this.popupVisible1
     },
-    submit() {
-      if (this.department === "") {
-        this.errorMsg.push("所属部门不能为空！");
+    submit () {
+      if (this.department === '') {
+        this.errorMsg.push('所属部门不能为空！')
       }
-      if (this.username === "") {
-        this.errorMsg.push("用户名不能为空！");
+      if (this.username === '') {
+        this.errorMsg.push('用户名不能为空！')
       }
-      if (this.password === "") {
-        this.errorMsg.push("密码不能为空！");
+      if (this.password === '') {
+        this.errorMsg.push('密码不能为空！')
       }
       if (this.errorMsg.length > 0) {
-        this.showErrorMsg = true;
+        this.showErrorMsg = true
         setTimeout(() => {
-          this.showErrorMsg = false;
-          this.errorMsg = [];
-        }, 3000);
+          this.showErrorMsg = false
+          this.errorMsg = []
+        }, 3000)
       } else {
-        console.log("验证通过！");
+        console.log('验证通过！')
         this.$axios
           .get(
             `/users?filter[where][department]=${
@@ -97,44 +97,44 @@ export default {
           .then(response => {
             // console.log(response);
             if (response.data.length > 0) {
-              this.$store.commit("setuserinfo", response.data);
-              this.$store.commit("setisLogin", true);
-              console.log(response.data[0].roles);
+              this.$store.commit('setuserinfo', response.data)
+              this.$store.commit('setisLogin', true)
+              console.log(response.data[0].roles)
               let role = response.data[0].roles.find(
-                (values, index, arr) => values === "系统管理员"
-              );
-              if (role === "系统管理员") {
-                console.log("角色", role);
-                this.$store.commit("setisAdmin", true);
+                (values, index, arr) => values === '系统管理员'
+              )
+              if (role === '系统管理员') {
+                console.log('角色', role)
+                this.$store.commit('setisAdmin', true)
               } else {
-                console.log("不是系统管理员！");
-                this.$store.commit("setisAdmin", false);
+                console.log('不是系统管理员！')
+                this.$store.commit('setisAdmin', false)
               }
               this.$router.push({
-                name: "home"
-              });
+                name: 'home'
+              })
             } else {
-              this.errorMsg.push("用户名或密码错误！");
-              this.showErrorMsg = true;
+              this.errorMsg.push('用户名或密码错误！')
+              this.showErrorMsg = true
               setTimeout(() => {
-                this.showErrorMsg = false;
-                this.errorMsg = [];
-              }, 3000);
+                this.showErrorMsg = false
+                this.errorMsg = []
+              }, 3000)
             }
           })
-          .catch(function(error) {
-            console.log(error);
-          });
+          .catch(function (error) {
+            console.log(error)
+          })
       }
     },
-    reset() {
-      this.department = "";
-      this.username = "";
-      this.password = "";
+    reset () {
+      this.department = ''
+      this.username = ''
+      this.password = ''
     },
-    register() {}
+    register () {}
   }
-};
+}
 </script>
 
 <style scoped>

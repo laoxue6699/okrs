@@ -6,7 +6,7 @@
       <router-link to="/showOkrs">查看Okr</router-link> |
       <router-link to="/editOkrs">编辑Okr</router-link>
     </div> -->
-    
+
     <div class="lists">
       <h3 class="list title">{{title}}</h3>
       <div class="list">
@@ -44,7 +44,7 @@
           <div>{{item}}</div>
         </div>
       </div>
-      
+
     </div>
     <mt-button class="submit" size="large" type="primary" @click.native="goEditOkrs">修改</mt-button>
     <mt-button class="submit" size="large" type="primary" @click.native="goBack">返回</mt-button>
@@ -53,94 +53,94 @@
 
 <script>
 export default {
-  name: "showOkrs",
-  data() {
+  name: 'showOkrs',
+  data () {
     return {
       okr: {},
-      department: "",
-      people: "",
-      category: "",
-      year: "",
-      period: "",
+      department: '',
+      people: '',
+      category: '',
+      year: '',
+      period: '',
       isShowKeyResults: false,
-      objective: "",
+      objective: '',
       objectives: [],
       keyResult: [],
       keyResults: []
-    };
+    }
   },
-  created() {
+  created () {
     if (this.$route.params.okr) {
-      console.log(this.$route.params.okr);
-      let okr = this.$route.params.okr;
-      this.okr = okr;
-      this.id = okr.id;
-      this.department = okr.department;
-      this.people = okr.people;
-      this.category = okr.category;
-      this.year = okr.year;
-      this.period = okr.period;
+      console.log(this.$route.params.okr)
+      let okr = this.$route.params.okr
+      this.okr = okr
+      this.id = okr.id
+      this.department = okr.department
+      this.people = okr.people
+      this.category = okr.category
+      this.year = okr.year
+      this.period = okr.period
       this.$axios
         .get(`/objectives?filter[where][pid]=${this.id}`)
         .then(response => {
-          console.log(response);
-          this.objectives = response.data;
+          console.log(response)
+          this.objectives = response.data
         })
-        .catch(function(error) {
-          console.log(error);
-        });
+        .catch(function (error) {
+          console.log(error)
+        })
       this.$axios
         .get(`/key-results?filter[where][ppid]=${this.id}`)
         .then(response => {
-          console.log(response);
-          this.keyResults = response.data;
+          console.log(response)
+          this.keyResults = response.data
         })
-        .catch(function(error) {
-          console.log(error);
-        });
+        .catch(function (error) {
+          console.log(error)
+        })
     } else {
       this.$router.push({
-        name: "home"
-      });
+        name: 'home'
+      })
     }
   },
   computed: {
-    title: function() {
+    title: function () {
       return (
-        this.people + this.year + this.period + "okr(" + this.category + ")"
-      );
+        this.people + this.year + this.period + 'okr(' + this.category + ')'
+      )
     }
   },
   methods: {
-    showKeyResults(items) {
-      let pid = items.id;
-      this.objective = items.item;
-      this.isShowKeyResults = !this.isShowKeyResults;
-      this.keyResult = [];
-      let data = this.keyResults;
+    showKeyResults (items) {
+      let pid = items.id
+      this.objective = items.item
+      this.isShowKeyResults = !this.isShowKeyResults
+      this.keyResult = []
+      let data = this.keyResults
       for (let i = 0; i < data.length; i++) {
         if (data[i].pid === pid) {
-          this.keyResult.push(data[i].item);
+          this.keyResult.push(data[i].item)
         }
       }
     },
-    goEditOkrs() {
+    goEditOkrs () {
       this.$router.push({
-        name: "editOkrs",
+        name: 'editOkrs',
         params: {
           okr: this.okr,
           objectives: this.objectives,
           keyResults: this.keyResults
         }
-      });
+      })
     },
-    goBack() {
+    goBack () {
       this.$router.push({
-        name: "home"
-      });
+        name: 'home'
+      })
     }
   }
-};
+}
 </script>
 
 <style scoped>

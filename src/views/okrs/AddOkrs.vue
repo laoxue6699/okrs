@@ -78,17 +78,17 @@
 
 <script>
 export default {
-  name: "addOkrs",
-  data() {
+  name: 'addOkrs',
+  data () {
     return {
-      id: "",
-      opid: "",
-      okid: "",
-      department: "",
-      people: "",
-      category: "",
-      year: "",
-      period: "",
+      id: '',
+      opid: '',
+      okid: '',
+      department: '',
+      people: '',
+      category: '',
+      year: '',
+      period: '',
       errorMsg: [],
       showErrorMsg: false,
       isShowKeyResults: false,
@@ -98,331 +98,331 @@ export default {
       optionsCategory: [],
       optionsYear: [],
       optionsPeriod: [],
-      objective: "",
-      objectiveItem: "",
-      keyResultItem: "",
+      objective: '',
+      objectiveItem: '',
+      keyResultItem: '',
       objectives: [],
       keyResult: [],
       keyResults: []
-    };
+    }
   },
-  created() {
-    this.getCategory();
-    this.getYear();
-    this.getPeriod();
-    this.id = this.guid();
-    this.opid = this.id;
-    console.log("id=", this.id);
+  created () {
+    this.getCategory()
+    this.getYear()
+    this.getPeriod()
+    this.id = this.guid()
+    this.opid = this.id
+    console.log('id=', this.id)
   },
-  mounted() {
+  mounted () {
     if (this.$store.state.userinfo.length > 0) {
-      console.log(this.$store.state.userinfo);
-      this.department = this.$store.state.userinfo[0].department;
-      this.people = this.$store.state.userinfo[0].username;
+      console.log(this.$store.state.userinfo)
+      this.department = this.$store.state.userinfo[0].department
+      this.people = this.$store.state.userinfo[0].username
     } else {
       this.$router.push({
-        name: "login"
-      });
+        name: 'login'
+      })
     }
   },
   computed: {
-    title: function() {
+    title: function () {
       return (
-        this.people + this.year + this.period + "okr(" + this.category + ")"
-      );
+        this.people + this.year + this.period + 'okr(' + this.category + ')'
+      )
     }
   },
   methods: {
-    guid() {
-      function S4() {
-        return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+    guid () {
+      function S4 () {
+        return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1)
       }
       return (
         S4() +
         S4() +
-        "-" +
+        '-' +
         S4() +
-        "-" +
+        '-' +
         S4() +
-        "-" +
+        '-' +
         S4() +
-        "-" +
+        '-' +
         S4() +
         S4() +
         S4()
-      );
+      )
     },
-    getCategory() {
+    getCategory () {
       this.$axios
-        .get("/categories")
+        .get('/categories')
         .then(response => {
-          console.log(response);
-          let data = response.data;
-          let values = [];
+          console.log(response)
+          let data = response.data
+          let values = []
           for (let i = 0; i < data.length; i++) {
-            values.push(data[i].item);
+            values.push(data[i].item)
           }
-          this.optionsCategory = values;
+          this.optionsCategory = values
         })
-        .catch(function(error) {
-          console.log(error);
-        });
+        .catch(function (error) {
+          console.log(error)
+        })
     },
-    getYear() {
+    getYear () {
       this.$axios
-        .get("/years")
+        .get('/years')
         .then(response => {
-          console.log(response);
-          let data = response.data;
-          let values = [];
+          console.log(response)
+          let data = response.data
+          let values = []
           for (let i = 0; i < data.length; i++) {
-            values.push(data[i].item);
+            values.push(data[i].item)
           }
-          this.optionsYear = values;
+          this.optionsYear = values
         })
-        .catch(function(error) {
-          console.log(error);
-        });
+        .catch(function (error) {
+          console.log(error)
+        })
     },
-    getPeriod() {
+    getPeriod () {
       this.$axios
-        .get("/periods")
+        .get('/periods')
         .then(response => {
-          console.log(response);
-          let data = response.data;
-          let values = [];
+          console.log(response)
+          let data = response.data
+          let values = []
           for (let i = 0; i < data.length; i++) {
-            values.push(data[i].item);
+            values.push(data[i].item)
           }
-          this.optionsPeriod = values;
+          this.optionsPeriod = values
         })
-        .catch(function(error) {
-          console.log(error);
-        });
+        .catch(function (error) {
+          console.log(error)
+        })
     },
-    selectCategory() {
-      this.popupVisible1 = !this.popupVisible1;
+    selectCategory () {
+      this.popupVisible1 = !this.popupVisible1
       if (this.popupVisible1 === true) {
-        this.popupVisible2 = false;
-        this.popupVisible3 = false;
+        this.popupVisible2 = false
+        this.popupVisible3 = false
       }
       setTimeout(() => {
-        this.popupVisible1 = false;
-      }, 2000);
+        this.popupVisible1 = false
+      }, 2000)
     },
-    selectYear() {
-      this.popupVisible2 = !this.popupVisible2;
+    selectYear () {
+      this.popupVisible2 = !this.popupVisible2
       if (this.popupVisible2 === true) {
-        this.popupVisible1 = false;
-        this.popupVisible3 = false;
+        this.popupVisible1 = false
+        this.popupVisible3 = false
       }
       setTimeout(() => {
-        this.popupVisible2 = false;
-      }, 2000);
+        this.popupVisible2 = false
+      }, 2000)
     },
-    selectPeriod() {
-      this.popupVisible3 = !this.popupVisible3;
+    selectPeriod () {
+      this.popupVisible3 = !this.popupVisible3
       if (this.popupVisible3 === true) {
-        this.popupVisible1 = false;
-        this.popupVisible2 = false;
+        this.popupVisible1 = false
+        this.popupVisible2 = false
       }
       setTimeout(() => {
-        this.popupVisible3 = false;
-      }, 2000);
+        this.popupVisible3 = false
+      }, 2000)
     },
 
-    showKeyResults(items) {
-      this.kpid = items.id;
-      let pid = items.id;
-      this.objective = items.item;
-      this.isShowKeyResults = !this.isShowKeyResults;
-      this.keyResult = [];
-      let data = this.keyResults;
+    showKeyResults (items) {
+      this.kpid = items.id
+      let pid = items.id
+      this.objective = items.item
+      this.isShowKeyResults = !this.isShowKeyResults
+      this.keyResult = []
+      let data = this.keyResults
       for (let i = 0; i < data.length; i++) {
         if (data[i].pid === pid) {
-          this.keyResult.push(data[i]);
+          this.keyResult.push(data[i])
         }
       }
     },
-    addObjective() {
-      if (this.objectiveItem === "") {
-        this.errorMsg.push("添加的目标内容不能为空！");
+    addObjective () {
+      if (this.objectiveItem === '') {
+        this.errorMsg.push('添加的目标内容不能为空！')
       }
       if (this.errorMsg.length > 0) {
-        this.showErrorMsg = true;
+        this.showErrorMsg = true
         setTimeout(() => {
-          this.showErrorMsg = false;
-          this.errorMsg = [];
-        }, 3000);
+          this.showErrorMsg = false
+          this.errorMsg = []
+        }, 3000)
       } else {
-        let data = {};
-        data.id = this.guid();
-        this.kpid = data.id;
-        data.pid = this.opid;
-        data.item = this.objectiveItem;
-        this.objectives.push(data);
-        console.log(data, "添加成功！");
-        this.objectiveItem = "";
+        let data = {}
+        data.id = this.guid()
+        this.kpid = data.id
+        data.pid = this.opid
+        data.item = this.objectiveItem
+        this.objectives.push(data)
+        console.log(data, '添加成功！')
+        this.objectiveItem = ''
       }
     },
-    delObjective(items, index) {
+    delObjective (items, index) {
       // console.log(index, items);
-      this.objectives.splice(index, 1);
-      let kpid = items.id;
-      let data = this.keyResults;
-      console.log(data);
-      let data1 = [];
+      this.objectives.splice(index, 1)
+      let kpid = items.id
+      let data = this.keyResults
+      console.log(data)
+      let data1 = []
       for (let i = 0; i < data.length; i++) {
         if (data[i].pid !== kpid) {
-          data1.push(data[i]);
+          data1.push(data[i])
         }
       }
-      console.log(data1);
-      this.keyResults = data1;
-      console.log(items.item, "目标删除成功！");
-      this.isShowKeyResults = false;
+      console.log(data1)
+      this.keyResults = data1
+      console.log(items.item, '目标删除成功！')
+      this.isShowKeyResults = false
     },
-    addkeyResult() {
-      if (this.keyResultItem === "") {
-        this.errorMsg.push("添加的关键结果内容不能为空！");
+    addkeyResult () {
+      if (this.keyResultItem === '') {
+        this.errorMsg.push('添加的关键结果内容不能为空！')
       }
       if (this.errorMsg.length > 0) {
-        this.showErrorMsg = true;
+        this.showErrorMsg = true
         setTimeout(() => {
-          this.showErrorMsg = false;
-          this.errorMsg = [];
-        }, 3000);
+          this.showErrorMsg = false
+          this.errorMsg = []
+        }, 3000)
       } else {
-        let data = {};
-        data.id = this.guid();
-        data.pid = this.kpid;
-        data.ppid = this.opid;
-        data.item = this.keyResultItem;
-        this.keyResult.push(data);
-        this.keyResults.push(data);
-        console.log(data, "添加成功！");
-        this.keyResultItem = "";
+        let data = {}
+        data.id = this.guid()
+        data.pid = this.kpid
+        data.ppid = this.opid
+        data.item = this.keyResultItem
+        this.keyResult.push(data)
+        this.keyResults.push(data)
+        console.log(data, '添加成功！')
+        this.keyResultItem = ''
       }
     },
-    delKeyResult(items, index) {
+    delKeyResult (items, index) {
       // console.log(item, index);
-      this.keyResult.splice(index, 1);
-      let kid = items.id;
+      this.keyResult.splice(index, 1)
+      let kid = items.id
       this.keyResults.splice(
-        this.keyResults.findIndex(item => item.id == kid),
+        this.keyResults.findIndex(item => item.id === kid),
         1
-      );
+      )
 
-      console.log(items.item, index, "被删除");
+      console.log(items.item, index, '被删除')
     },
-    submit() {
-      if (this.category === "") {
-        this.errorMsg.push("请选择分类！");
+    submit () {
+      if (this.category === '') {
+        this.errorMsg.push('请选择分类！')
       }
-      if (this.year === "") {
-        this.errorMsg.push("请选择年份！");
+      if (this.year === '') {
+        this.errorMsg.push('请选择年份！')
       }
-      if (this.period === "") {
-        this.errorMsg.push("请选择期间！");
+      if (this.period === '') {
+        this.errorMsg.push('请选择期间！')
       }
       if (this.objectives.length < 1) {
-        this.errorMsg.push("目标内容不能为空！");
+        this.errorMsg.push('目标内容不能为空！')
       }
-      //此处可以做一个遍历，判断每一个目标下面都必须有一个以上的关键结果
+      // 此处可以做一个遍历，判断每一个目标下面都必须有一个以上的关键结果
       for (let i = 0; i < this.objectives.length; i++) {
-        let pid = this.objectives[i].id;
-        let otitle = this.objectives[i].item;
-        let karr = this.keyResults.filter(item => item.pid === pid);
-        console.log(otitle, karr);
+        let pid = this.objectives[i].id
+        let otitle = this.objectives[i].item
+        let karr = this.keyResults.filter(item => item.pid === pid)
+        console.log(otitle, karr)
         if (karr < 1) {
-          this.errorMsg.push(otitle + "的关键结果不能为空！");
+          this.errorMsg.push(otitle + '的关键结果不能为空！')
         }
       }
       if (this.errorMsg.length > 0) {
-        this.showErrorMsg = true;
+        this.showErrorMsg = true
         setTimeout(() => {
-          this.showErrorMsg = false;
-          this.errorMsg = [];
-        }, 3000);
+          this.showErrorMsg = false
+          this.errorMsg = []
+        }, 3000)
       } else {
-        console.log("验证通过！");
-        let data = {};
-        data.id = this.id;
-        data.title = this.title;
-        data.department = this.department;
-        data.category = this.category;
-        data.year = this.year;
-        data.period = this.period;
-        data.people = this.people;
-        data = JSON.stringify(data);
-        console.log("okr", data);
+        console.log('验证通过！')
+        let data = {}
+        data.id = this.id
+        data.title = this.title
+        data.department = this.department
+        data.category = this.category
+        data.year = this.year
+        data.period = this.period
+        data.people = this.people
+        data = JSON.stringify(data)
+        console.log('okr', data)
 
         this.$axios
-          .post("/okrs", data)
+          .post('/okrs', data)
           .then(response => {
-            console.log("okr添加成功！");
+            console.log('okr添加成功！')
           })
-          .catch(function(error) {
-            console.log(error);
-          });
+          .catch(function (error) {
+            console.log(error)
+          })
 
         for (let i = 0; i < this.objectives.length; i++) {
-          data = {};
-          data.id = this.objectives[i].id;
-          data.pid = this.objectives[i].pid;
-          data.item = this.objectives[i].item;
-          data = JSON.stringify(data);
-          console.log("objective", data);
+          data = {}
+          data.id = this.objectives[i].id
+          data.pid = this.objectives[i].pid
+          data.item = this.objectives[i].item
+          data = JSON.stringify(data)
+          console.log('objective', data)
 
           this.$axios
-            .post("/objectives", data)
+            .post('/objectives', data)
             .then(response => {
-              console.log("objectives添加成功！");
+              console.log('objectives添加成功！')
             })
-            .catch(function(error) {
-              console.log(error);
-            });
+            .catch(function (error) {
+              console.log(error)
+            })
         }
 
         for (let i = 0; i < this.keyResults.length; i++) {
-          data = {};
-          data.id = this.keyResults[i].id;
-          data.pid = this.keyResults[i].pid;
-          data.ppid = this.keyResults[i].ppid;
-          data.item = this.keyResults[i].item;
-          data = JSON.stringify(data);
-          console.log("objective", data);
+          data = {}
+          data.id = this.keyResults[i].id
+          data.pid = this.keyResults[i].pid
+          data.ppid = this.keyResults[i].ppid
+          data.item = this.keyResults[i].item
+          data = JSON.stringify(data)
+          console.log('objective', data)
 
           this.$axios
-            .post("/key-results", data)
+            .post('/key-results', data)
             .then(response => {
-              console.log("keyResults添加成功！");
+              console.log('keyResults添加成功！')
             })
-            .catch(function(error) {
-              console.log(error);
-            });
+            .catch(function (error) {
+              console.log(error)
+            })
         }
-        this.reset();
+        this.reset()
       }
     },
-    reset() {
-      this.id = this.guid();
-      this.opid = this.id;
-      this.category = "";
-      this.year = "";
-      this.period = "";
-      this.objective = "";
-      this.objectives = [];
-      this.keyResult = [];
-      this.keyResults = [];
+    reset () {
+      this.id = this.guid()
+      this.opid = this.id
+      this.category = ''
+      this.year = ''
+      this.period = ''
+      this.objective = ''
+      this.objectives = []
+      this.keyResult = []
+      this.keyResults = []
     },
-    cancel() {
+    cancel () {
       this.$router.push({
-        name: "home"
-      });
+        name: 'home'
+      })
     }
   }
-};
+}
 </script>
 
 <style scoped>

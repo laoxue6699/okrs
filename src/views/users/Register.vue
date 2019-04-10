@@ -5,8 +5,8 @@
       <router-link to="/admin">后台管理</router-link>
       <router-link to="/register">用户注册</router-link>
       <router-link to="/home">okrs管理</router-link>
-      
-     </div> 
+
+     </div>
     <div class="errorMsg" v-show="showErrorMsg">{{errorMsg}}</div>
     <div class="lists">
       <div class="list">
@@ -39,159 +39,159 @@
 
 <script>
 export default {
-  name: "Register",
-  data() {
+  name: 'Register',
+  data () {
     return {
-      id: "",
-      username: "",
-      department: "",
-      password: "",
+      id: '',
+      username: '',
+      department: '',
+      password: '',
       roles: [],
-      email: "",
+      email: '',
       popupVisible1: false,
       popupVisible2: false,
       errorMsg: [],
       showErrorMsg: false,
       optionsDepartment: [],
       optionsRoles: []
-    };
+    }
   },
-  created() {
-    this.getDepartments();
-    this.getRoles();
+  created () {
+    this.getDepartments()
+    this.getRoles()
   },
   computed: {
-    isAdmin: function() {
-      return this.$store.state.isAdmin;
+    isAdmin: function () {
+      return this.$store.state.isAdmin
     }
   },
   methods: {
-    getDepartments() {
+    getDepartments () {
       this.$axios
-        .get("/departments")
+        .get('/departments')
         .then(response => {
-          console.log(response);
-          this.departmentList = response.data;
-          let data = response.data;
-          let values = [];
+          console.log(response)
+          this.departmentList = response.data
+          let data = response.data
+          let values = []
           for (let i = 0; i < data.length; i++) {
-            values.push(data[i].item);
+            values.push(data[i].item)
           }
-          this.optionsDepartment = values;
+          this.optionsDepartment = values
         })
-        .catch(function(error) {
-          console.log(error);
-        });
+        .catch(function (error) {
+          console.log(error)
+        })
     },
-    selectDepartment() {
-      this.popupVisible1 = !this.popupVisible1;
+    selectDepartment () {
+      this.popupVisible1 = !this.popupVisible1
     },
-    getRoles() {
+    getRoles () {
       this.$axios
-        .get("/roles")
+        .get('/roles')
         .then(response => {
-          console.log(response);
-          this.roleList = response.data;
-          let data = response.data.reverse();
-          let values = [];
+          console.log(response)
+          this.roleList = response.data
+          let data = response.data.reverse()
+          let values = []
           for (let i = 0; i < data.length; i++) {
-            values.push(data[i].item);
+            values.push(data[i].item)
           }
-          this.optionsRoles = values;
+          this.optionsRoles = values
         })
-        .catch(function(error) {
-          console.log(error);
-        });
+        .catch(function (error) {
+          console.log(error)
+        })
     },
-    selectRole() {
-      this.popupVisible2 = !this.popupVisible2;
+    selectRole () {
+      this.popupVisible2 = !this.popupVisible2
     },
-    onRoleChange(picker, values) {
-      this.role = values[0];
+    onRoleChange (picker, values) {
+      this.role = values[0]
     },
-    guid() {
-      function S4() {
-        return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+    guid () {
+      function S4 () {
+        return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1)
       }
       return (
         S4() +
         S4() +
-        "-" +
+        '-' +
         S4() +
-        "-" +
+        '-' +
         S4() +
-        "-" +
+        '-' +
         S4() +
-        "-" +
+        '-' +
         S4() +
         S4() +
         S4()
-      );
+      )
     },
-    submit() {
-      if (this.department === "") {
-        this.errorMsg.push("所属部门不能为空！");
+    submit () {
+      if (this.department === '') {
+        this.errorMsg.push('所属部门不能为空！')
       }
-      if (this.username === "") {
-        this.errorMsg.push("用户名不能为空！");
+      if (this.username === '') {
+        this.errorMsg.push('用户名不能为空！')
       }
-      if (this.password === "") {
-        this.errorMsg.push("密码不能为空！");
+      if (this.password === '') {
+        this.errorMsg.push('密码不能为空！')
       }
-      if (this.roles === "") {
-        this.errorMsg.push("角色不能为空！");
+      if (this.roles === '') {
+        this.errorMsg.push('角色不能为空！')
       }
-      if (this.email !== "") {
+      if (this.email !== '') {
         let reg = new RegExp(
-          "^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$"
-        );
+          '^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$'
+        )
         if (reg.test(this.email)) {
-          console.log("email ok");
+          console.log('email ok')
         } else {
-          console.log("email error!");
-          this.errorMsg.push("邮箱地址格式错误！");
+          console.log('email error!')
+          this.errorMsg.push('邮箱地址格式错误！')
         }
       }
       if (this.errorMsg.length > 0) {
-        this.showErrorMsg = true;
+        this.showErrorMsg = true
         setTimeout(() => {
-          this.showErrorMsg = false;
-          this.errorMsg = [];
-        }, 3000);
+          this.showErrorMsg = false
+          this.errorMsg = []
+        }, 3000)
       } else {
-        console.log("验证通过！");
+        console.log('验证通过！')
         // 生成uuid
-        this.id = this.guid();
+        this.id = this.guid()
         // console.log("id", this.id);
-        let userinfo = {};
-        userinfo.id = this.id;
-        userinfo.department = this.department;
-        userinfo.username = this.username;
-        userinfo.password = this.password;
-        userinfo.roles = this.roles;
-        userinfo.email = this.email;
-        userinfo = JSON.stringify(userinfo);
-        console.log(userinfo);
+        let userinfo = {}
+        userinfo.id = this.id
+        userinfo.department = this.department
+        userinfo.username = this.username
+        userinfo.password = this.password
+        userinfo.roles = this.roles
+        userinfo.email = this.email
+        userinfo = JSON.stringify(userinfo)
+        console.log(userinfo)
         this.$axios
-          .post("/users", userinfo)
+          .post('/users', userinfo)
           .then(response => {
             // console.log(response);
           })
-          .catch(function(error) {
-            console.log(error);
-          });
+          .catch(function (error) {
+            console.log(error)
+          })
       }
-      this.reset();
+      this.reset()
     },
-    reset() {
-      this.department = "";
-      this.roles = [];
-      this.username = "";
-      this.password = "";
-      this.email = "";
+    reset () {
+      this.department = ''
+      this.roles = []
+      this.username = ''
+      this.password = ''
+      this.email = ''
     }
   }
-};
+}
 </script>
 
 <style scoped>

@@ -39,12 +39,12 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       isShowDepartmentList: false,
       isAddDepartment: false,
       isUpdateDepartment: false,
-      department: "",
+      department: '',
       departmentList: [],
       popupVisible1: false,
       popupVisible2: false,
@@ -52,138 +52,134 @@ export default {
       index: -999,
       itemId: 0,
       departmentData: {}
-    };
+    }
   },
-  created() {
-    this.getDepartments();
+  created () {
+    this.getDepartments()
   },
   methods: {
-    getDepartments() {
+    getDepartments () {
       this.$axios
-        .get("/departments")
+        .get('/departments')
         .then(response => {
-          console.log(response);
-          this.departmentList = response.data;
+          console.log(response)
+          this.departmentList = response.data
           if (this.departmentList.length > 0) {
-            this.departmentId = this.departmentList[
-              this.departmentList.length - 1
-            ].id;
+            this.departmentId = this.departmentList[this.departmentList.length - 1].id
           } else {
-            this.departmentId = 0;
+            this.departmentId = 0
           }
-          console.log("this.departmentId = ", this.departmentId);
+          console.log('this.departmentId = ', this.departmentId)
         })
-        .catch(function(error) {
-          console.log(error);
-        });
+        .catch(function (error) {
+          console.log(error)
+        })
     },
-    saveDepartment() {
+    saveDepartment () {
       this.$axios
-        .post("/departments", this.departmentData)
-        .then(function(response) {
-          console.log(response);
+        .post('/departments', this.departmentData)
+        .then(function (response) {
+          console.log(response)
         })
-        .catch(function(error) {
-          console.log(error);
-        });
+        .catch(function (error) {
+          console.log(error)
+        })
     },
-    showDepartmentList() {
-      this.isShowDepartmentList = !this.isShowDepartmentList;
-      this.isAddDepartment = !this.isAddDepartment;
+    showDepartmentList () {
+      this.isShowDepartmentList = !this.isShowDepartmentList
+      this.isAddDepartment = !this.isAddDepartment
     },
-    showAddDepartment() {
-      this.isAddDepartment = true;
+    showAddDepartment () {
+      this.isAddDepartment = true
     },
-    addDepartment() {
+    addDepartment () {
       if (this.department.length > 0) {
-        let data = {};
-        this.departmentId += 1;
-        data.id = this.departmentId;
-        data.item = this.department;
-        this.departmentData = JSON.stringify(data);
-        this.departmentList.push(data);
-        this.saveDepartment();
-        this.department = "";
+        let data = {}
+        this.departmentId += 1
+        data.id = this.departmentId
+        data.item = this.department
+        this.departmentData = JSON.stringify(data)
+        this.departmentList.push(data)
+        this.saveDepartment()
+        this.department = ''
       } else {
-        this.popupVisible1 = true;
+        this.popupVisible1 = true
         setTimeout(() => {
-          this.popupVisible1 = false;
-        }, 2000);
+          this.popupVisible1 = false
+        }, 2000)
       }
     },
-    delDepartment(index, id) {
-      this.popupVisible2 = true;
-      this.index = index;
-      this.itemId = id;
+    delDepartment (index, id) {
+      this.popupVisible2 = true
+      this.index = index
+      this.itemId = id
     },
-    delDepartmentYes() {
-      console.log("deleted!");
-      this.departmentList.splice(this.index, 1);
+    delDepartmentYes () {
+      console.log('deleted!')
+      this.departmentList.splice(this.index, 1)
       this.$axios
         .delete(`/departments/${this.itemId}`)
         .then(response => {
-          console.log(response);
+          console.log(response)
           if (this.departmentList.length > 0) {
-            this.departmentId = this.departmentList[
-              this.departmentList.length - 1
-            ].id;
+            this.departmentId = this.departmentList[this.departmentList.length - 1].id
           } else {
-            this.departmentId = 0;
+            this.departmentId = 0
           }
         })
-        .catch(function(error) {
-          console.log(error);
-        });
-      this.popupVisible2 = false;
+        .catch(function (error) {
+          console.log(error)
+        })
+      this.popupVisible2 = false
     },
-    delDepartmentNo() {
-      this.popupVisible2 = false;
+    delDepartmentNo () {
+      this.popupVisible2 = false
     },
-    updateDepartment(index, item) {
-      this.isShowDepartmentList = false;
-      this.isUpdateDepartment = true;
-      this.isAddDepartment = false;
-      this.index = index;
-      this.itemId = item.id;
-      this.department = item.item;
+    updateDepartment (index, item) {
+      this.isShowDepartmentList = false
+      this.isUpdateDepartment = true
+      this.isAddDepartment = false
+      this.index = index
+      this.itemId = item.id
+      this.department = item.item
     },
-    updateDepartmentYes() {
-      console.log("updated!");
+    updateDepartmentYes () {
+      console.log('updated!')
       // 更新的业务逻辑
       if (this.department.length > 0) {
-        this.departmentList[this.index].item = this.department;
-        let data = {};
-        data.id = this.departmentId;
-        data.item = this.department;
-        this.departmentData = JSON.stringify(data);
+        this.departmentList[this.index].item = this.department
+        let data = {}
+        data.id = this.departmentId
+        data.item = this.department
+        this.departmentData = JSON.stringify(data)
         this.$axios
           .patch(`/departments/${this.itemId}`, this.departmentData)
           .then(response => {
-            console.log(response);
+            console.log(response)
           })
-          .catch(function(error) {
-            console.log(error);
-          });
+          .catch(function (error) {
+            console.log(error)
+          })
       } else {
-        this.popupVisible3 = true;
+        this.popupVisible3 = true
         setTimeout(() => {
-          this.popupVisible3 = false;
-        }, 2000);
+          this.popupVisible3 = false
+        }, 2000)
       }
 
-      this.isShowDepartmentList = true;
-      this.isAddDepartment = true;
-      this.isUpdateDepartment = false;
-      this.department = "";
+      this.isShowDepartmentList = true
+      this.isAddDepartment = true
+      this.isUpdateDepartment = false
+      this.department = ''
     },
-    updateDepartmentNo() {
-      this.isShowDepartmentList = true;
-      this.isAddDepartment = true;
-      this.isUpdateDepartment = false;
-      this.department = "";
+    updateDepartmentNo () {
+      this.isShowDepartmentList = true
+      this.isAddDepartment = true
+      this.isUpdateDepartment = false
+      this.department = ''
     }
   }
-};
+}
 </script>
 
 <style scoped>

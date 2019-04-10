@@ -39,12 +39,12 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       isShowRoleList: false,
       isAddRole: false,
       isUpdateRole: false,
-      role: "",
+      role: '',
       roleList: [],
       popupVisible1: false,
       popupVisible2: false,
@@ -52,130 +52,130 @@ export default {
       index: -999,
       itemId: 0,
       roleData: {}
-    };
+    }
   },
-  created() {
-    this.getRoles();
+  created () {
+    this.getRoles()
   },
   methods: {
-    getRoles() {
+    getRoles () {
       this.$axios
-        .get("/roles")
+        .get('/roles')
         .then(response => {
-          console.log(response);
-          this.roleList = response.data;
+          console.log(response)
+          this.roleList = response.data
           if (this.roleList.length > 0) {
-            this.roleId = this.roleList[this.roleList.length - 1].id;
+            this.roleId = this.roleList[this.roleList.length - 1].id
           } else {
-            this.roleId = 0;
+            this.roleId = 0
           }
-          console.log("this.roleId = ", this.roleId);
+          console.log('this.roleId = ', this.roleId)
         })
-        .catch(function(error) {
-          console.log(error);
-        });
+        .catch(function (error) {
+          console.log(error)
+        })
     },
-    saveRole() {
+    saveRole () {
       this.$axios
-        .post("/roles", this.roleData)
-        .then(function(response) {
-          console.log(response);
+        .post('/roles', this.roleData)
+        .then(function (response) {
+          console.log(response)
         })
-        .catch(function(error) {
-          console.log(error);
-        });
+        .catch(function (error) {
+          console.log(error)
+        })
     },
-    showRoleList() {
-      this.isShowRoleList = !this.isShowRoleList;
-      this.isAddRole = !this.isAddRole;
+    showRoleList () {
+      this.isShowRoleList = !this.isShowRoleList
+      this.isAddRole = !this.isAddRole
     },
-    showAddRole() {
-      this.isAddRole = true;
+    showAddRole () {
+      this.isAddRole = true
     },
-    addRole() {
+    addRole () {
       if (this.role.length > 0) {
-        let data = {};
-        this.roleId += 1;
-        data.id = this.roleId;
-        data.item = this.role;
-        this.roleData = JSON.stringify(data);
-        this.roleList.push(data);
-        this.saveRole();
-        this.role = "";
+        let data = {}
+        this.roleId += 1
+        data.id = this.roleId
+        data.item = this.role
+        this.roleData = JSON.stringify(data)
+        this.roleList.push(data)
+        this.saveRole()
+        this.role = ''
       } else {
-        this.popupVisible1 = true;
+        this.popupVisible1 = true
         setTimeout(() => {
-          this.popupVisible1 = false;
-        }, 2000);
+          this.popupVisible1 = false
+        }, 2000)
       }
     },
-    delRole(index, id) {
-      this.popupVisible2 = true;
-      this.index = index;
-      this.itemId = id;
+    delRole (index, id) {
+      this.popupVisible2 = true
+      this.index = index
+      this.itemId = id
     },
-    delRoleYes() {
-      console.log("deleted!");
-      this.roleList.splice(this.index, 1);
+    delRoleYes () {
+      console.log('deleted!')
+      this.roleList.splice(this.index, 1)
       this.$axios
         .delete(`/roles/${this.itemId}`)
         .then(response => {
-          console.log(response);
+          console.log(response)
           if (this.roleList.length > 0) {
-            this.roleId = this.roleList[this.roleList.length - 1].id;
+            this.roleId = this.roleList[this.roleList.length - 1].id
           } else {
-            this.roleId = 0;
+            this.roleId = 0
           }
         })
-        .catch(function(error) {
-          console.log(error);
-        });
-      this.popupVisible2 = false;
+        .catch(function (error) {
+          console.log(error)
+        })
+      this.popupVisible2 = false
     },
-    delRoleNo() {
-      this.popupVisible2 = false;
+    delRoleNo () {
+      this.popupVisible2 = false
     },
-    updateRole(index, id) {
-      this.isUpdateRole = true;
-      this.isAddRole = false;
-      this.index = index;
-      this.itemId = id;
+    updateRole (index, id) {
+      this.isUpdateRole = true
+      this.isAddRole = false
+      this.index = index
+      this.itemId = id
     },
-    updateRoleYes() {
-      console.log("updated!");
+    updateRoleYes () {
+      console.log('updated!')
       // 更新的业务逻辑
       if (this.role.length > 0) {
-        this.roleList[this.index].item = this.role;
-        let data = {};
-        data.id = this.roleId;
-        data.item = this.role;
-        this.roleData = JSON.stringify(data);
+        this.roleList[this.index].item = this.role
+        let data = {}
+        data.id = this.roleId
+        data.item = this.role
+        this.roleData = JSON.stringify(data)
         this.$axios
           .patch(`/roles/${this.itemId}`, this.roleData)
           .then(response => {
-            console.log(response);
+            console.log(response)
           })
-          .catch(function(error) {
-            console.log(error);
-          });
+          .catch(function (error) {
+            console.log(error)
+          })
       } else {
-        this.popupVisible3 = true;
+        this.popupVisible3 = true
         setTimeout(() => {
-          this.popupVisible3 = false;
-        }, 2000);
+          this.popupVisible3 = false
+        }, 2000)
       }
 
-      this.isAddRole = true;
-      this.isUpdateRole = false;
-      this.role = "";
+      this.isAddRole = true
+      this.isUpdateRole = false
+      this.role = ''
     },
-    updateRoleNo() {
-      this.isAddRole = true;
-      this.isUpdateRole = false;
-      this.role = "";
+    updateRoleNo () {
+      this.isAddRole = true
+      this.isUpdateRole = false
+      this.role = ''
     }
   }
-};
+}
 </script>
 
 <style scoped>

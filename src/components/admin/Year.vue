@@ -40,12 +40,12 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       isShowYearList: false,
       isAddYear: false,
       isUpdateYear: false,
-      year: "",
+      year: '',
       yearList: [],
       popupVisible1: false,
       popupVisible2: false,
@@ -53,130 +53,130 @@ export default {
       index: -999,
       itemId: 0,
       yearData: {}
-    };
+    }
   },
-  created() {
-    this.getYears();
+  created () {
+    this.getYears()
   },
   methods: {
-    getYears() {
+    getYears () {
       this.$axios
-        .get("/years")
+        .get('/years')
         .then(response => {
-          console.log(response);
-          this.yearList = response.data;
+          console.log(response)
+          this.yearList = response.data
           if (this.yearList.length > 0) {
-            this.yearId = this.yearList[this.yearList.length - 1].id;
+            this.yearId = this.yearList[this.yearList.length - 1].id
           } else {
-            this.yearId = 0;
+            this.yearId = 0
           }
-          console.log("this.yearId = ", this.yearId);
+          console.log('this.yearId = ', this.yearId)
         })
-        .catch(function(error) {
-          console.log(error);
-        });
+        .catch(function (error) {
+          console.log(error)
+        })
     },
-    saveYear() {
+    saveYear () {
       this.$axios
-        .post("/years", this.yearData)
-        .then(function(response) {
-          console.log(response);
+        .post('/years', this.yearData)
+        .then(function (response) {
+          console.log(response)
         })
-        .catch(function(error) {
-          console.log(error);
-        });
+        .catch(function (error) {
+          console.log(error)
+        })
     },
-    showYearList() {
-      this.isShowYearList = !this.isShowYearList;
-      this.isAddYear = !this.isAddYear;
+    showYearList () {
+      this.isShowYearList = !this.isShowYearList
+      this.isAddYear = !this.isAddYear
     },
-    showAddYear() {
-      this.isAddYear = true;
+    showAddYear () {
+      this.isAddYear = true
     },
-    addYear() {
+    addYear () {
       if (this.year.length > 0) {
-        let data = {};
-        this.yearId += 1;
-        data.id = this.yearId;
-        data.item = this.year;
-        this.yearData = JSON.stringify(data);
-        this.yearList.push(data);
-        this.saveYear();
-        this.year = "";
+        let data = {}
+        this.yearId += 1
+        data.id = this.yearId
+        data.item = this.year
+        this.yearData = JSON.stringify(data)
+        this.yearList.push(data)
+        this.saveYear()
+        this.year = ''
       } else {
-        this.popupVisible1 = true;
+        this.popupVisible1 = true
         setTimeout(() => {
-          this.popupVisible1 = false;
-        }, 2000);
+          this.popupVisible1 = false
+        }, 2000)
       }
     },
-    delYear(index, id) {
-      this.popupVisible2 = true;
-      this.index = index;
-      this.itemId = id;
+    delYear (index, id) {
+      this.popupVisible2 = true
+      this.index = index
+      this.itemId = id
     },
-    delYearYes() {
-      console.log("deleted!");
-      this.yearList.splice(this.index, 1);
+    delYearYes () {
+      console.log('deleted!')
+      this.yearList.splice(this.index, 1)
       this.$axios
         .delete(`/years/${this.itemId}`)
         .then(response => {
-          console.log(response);
+          console.log(response)
           if (this.yearList.length > 0) {
-            this.yearId = this.yearList[this.yearList.length - 1].id;
+            this.yearId = this.yearList[this.yearList.length - 1].id
           } else {
-            this.yearId = 0;
+            this.yearId = 0
           }
         })
-        .catch(function(error) {
-          console.log(error);
-        });
-      this.popupVisible2 = false;
+        .catch(function (error) {
+          console.log(error)
+        })
+      this.popupVisible2 = false
     },
-    delYearNo() {
-      this.popupVisible2 = false;
+    delYearNo () {
+      this.popupVisible2 = false
     },
-    updateYear(index, id) {
-      this.isUpdateYear = true;
-      this.isAddYear = false;
-      this.index = index;
-      this.itemId = id;
+    updateYear (index, id) {
+      this.isUpdateYear = true
+      this.isAddYear = false
+      this.index = index
+      this.itemId = id
     },
-    updateYearYes() {
-      console.log("updated!");
+    updateYearYes () {
+      console.log('updated!')
       // 更新的业务逻辑
       if (this.year.length > 0) {
-        this.yearList[this.index].item = this.year;
-        let data = {};
-        data.id = this.yearId;
-        data.item = this.year;
-        this.yearData = JSON.stringify(data);
+        this.yearList[this.index].item = this.year
+        let data = {}
+        data.id = this.yearId
+        data.item = this.year
+        this.yearData = JSON.stringify(data)
         this.$axios
           .patch(`/years/${this.itemId}`, this.yearData)
           .then(response => {
-            console.log(response);
+            console.log(response)
           })
-          .catch(function(error) {
-            console.log(error);
-          });
+          .catch(function (error) {
+            console.log(error)
+          })
       } else {
-        this.popupVisible3 = true;
+        this.popupVisible3 = true
         setTimeout(() => {
-          this.popupVisible3 = false;
-        }, 2000);
+          this.popupVisible3 = false
+        }, 2000)
       }
 
-      this.isAddYear = true;
-      this.isUpdateYear = false;
-      this.year = "";
+      this.isAddYear = true
+      this.isUpdateYear = false
+      this.year = ''
     },
-    updateYearNo() {
-      this.isAddYear = true;
-      this.isUpdateYear = false;
-      this.year = "";
+    updateYearNo () {
+      this.isAddYear = true
+      this.isUpdateYear = false
+      this.year = ''
     }
   }
-};
+}
 </script>
 
 <style scoped>

@@ -3,7 +3,7 @@
     <div class="content">
       <div v-show="isLogin" class="list">
        <span  class="main-nav" @click="logout">退出</span>
-       <span  class="main-nav"@click="goUpdatePassword">修改密码</span>
+       <span  class="main-nav" @click="goUpdatePassword">修改密码</span>
     </div>
       <router-view />
     </div>
@@ -12,31 +12,31 @@
 
 <script>
 export default {
-  name: "app",
-  data() {
-    return {};
+  name: 'app',
+  data () {
+    return {}
   },
   computed: {
-    isLogin: function() {
-      return this.$store.state.isLogin;
+    isLogin: function () {
+      return this.$store.state.isLogin
     }
   },
   methods: {
-    logout() {
-      this.$store.commit("setuserinfo", {});
-      this.$store.commit("setisAdmin", false);
-      this.$store.commit("setisLogin", false);
+    logout () {
+      this.$store.commit('setuserinfo', {})
+      this.$store.commit('setisAdmin', false)
+      this.$store.commit('setisLogin', false)
       this.$router.push({
-        name: "login"
-      });
+        name: 'login'
+      })
     },
-    goUpdatePassword() {
+    goUpdatePassword () {
       this.$router.push({
-        name: "updatePassword"
-      });
+        name: 'updatePassword'
+      })
     }
   }
-};
+}
 </script>
 
 <style>

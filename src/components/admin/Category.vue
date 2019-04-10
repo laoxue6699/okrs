@@ -40,12 +40,12 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       isShowCategoryList: false,
       isAddCategory: false,
       isUpdateCategory: false,
-      category: "",
+      category: '',
       categoryList: [],
       popupVisible1: false,
       popupVisible2: false,
@@ -53,134 +53,130 @@ export default {
       index: -999,
       itemId: 0,
       categoryData: {}
-    };
+    }
   },
-  created() {
-    this.getCategorys();
+  created () {
+    this.getCategorys()
   },
   methods: {
-    getCategorys() {
+    getCategorys () {
       this.$axios
-        .get("/categories")
+        .get('/categories')
         .then(response => {
-          console.log(response);
-          this.categoryList = response.data;
+          console.log(response)
+          this.categoryList = response.data
           if (this.categoryList.length > 0) {
-            this.categoryId = this.categoryList[
-              this.categoryList.length - 1
-            ].id;
+            this.categoryId = this.categoryList[this.categoryList.length - 1].id
           } else {
-            this.categoryId = 0;
+            this.categoryId = 0
           }
-          console.log("this.categoryId = ", this.categoryId);
+          console.log('this.categoryId = ', this.categoryId)
         })
-        .catch(function(error) {
-          console.log(error);
-        });
+        .catch(function (error) {
+          console.log(error)
+        })
     },
-    saveCategory() {
+    saveCategory () {
       this.$axios
-        .post("/categories", this.categoryData)
-        .then(function(response) {
-          console.log(response);
+        .post('/categories', this.categoryData)
+        .then(function (response) {
+          console.log(response)
         })
-        .catch(function(error) {
-          console.log(error);
-        });
+        .catch(function (error) {
+          console.log(error)
+        })
     },
-    showCategoryList() {
-      this.isShowCategoryList = !this.isShowCategoryList;
-      this.isAddCategory = !this.isAddCategory;
+    showCategoryList () {
+      this.isShowCategoryList = !this.isShowCategoryList
+      this.isAddCategory = !this.isAddCategory
     },
-    showAddCategory() {
-      this.isAddCategory = true;
+    showAddCategory () {
+      this.isAddCategory = true
     },
-    addCategory() {
+    addCategory () {
       if (this.category.length > 0) {
-        let data = {};
-        this.categoryId += 1;
-        data.id = this.categoryId;
-        data.item = this.category;
-        this.categoryData = JSON.stringify(data);
-        this.categoryList.push(data);
-        this.saveCategory();
-        this.category = "";
+        let data = {}
+        this.categoryId += 1
+        data.id = this.categoryId
+        data.item = this.category
+        this.categoryData = JSON.stringify(data)
+        this.categoryList.push(data)
+        this.saveCategory()
+        this.category = ''
       } else {
-        this.popupVisible1 = true;
+        this.popupVisible1 = true
         setTimeout(() => {
-          this.popupVisible1 = false;
-        }, 2000);
+          this.popupVisible1 = false
+        }, 2000)
       }
     },
-    delCategory(index, id) {
-      this.popupVisible2 = true;
-      this.index = index;
-      this.itemId = id;
+    delCategory (index, id) {
+      this.popupVisible2 = true
+      this.index = index
+      this.itemId = id
     },
-    delCategoryYes() {
-      console.log("deleted!");
-      this.categoryList.splice(this.index, 1);
+    delCategoryYes () {
+      console.log('deleted!')
+      this.categoryList.splice(this.index, 1)
       this.$axios
         .delete(`/categories/${this.itemId}`)
         .then(response => {
-          console.log(response);
+          console.log(response)
           if (this.categoryList.length > 0) {
-            this.categoryId = this.categoryList[
-              this.categoryList.length - 1
-            ].id;
+            this.categoryId = this.categoryList[this.categoryList.length - 1].id
           } else {
-            this.categoryId = 0;
+            this.categoryId = 0
           }
         })
-        .catch(function(error) {
-          console.log(error);
-        });
-      this.popupVisible2 = false;
+        .catch(function (error) {
+          console.log(error)
+        })
+      this.popupVisible2 = false
     },
-    delCategoryNo() {
-      this.popupVisible2 = false;
+    delCategoryNo () {
+      this.popupVisible2 = false
     },
-    updateCategory(index, id) {
-      this.isUpdateCategory = true;
-      this.isAddCategory = false;
-      this.index = index;
-      this.itemId = id;
+    updateCategory (index, id) {
+      this.isUpdateCategory = true
+      this.isAddCategory = false
+      this.index = index
+      this.itemId = id
     },
-    updateCategoryYes() {
-      console.log("updated!");
+    updateCategoryYes () {
+      console.log('updated!')
       // 更新的业务逻辑
       if (this.category.length > 0) {
-        this.categoryList[this.index].item = this.category;
-        let data = {};
-        data.id = this.categoryId;
-        data.item = this.category;
-        this.categoryData = JSON.stringify(data);
+        this.categoryList[this.index].item = this.category
+        let data = {}
+        data.id = this.categoryId
+        data.item = this.category
+        this.categoryData = JSON.stringify(data)
         this.$axios
           .patch(`/categories/${this.itemId}`, this.categoryData)
           .then(response => {
-            console.log(response);
+            console.log(response)
           })
-          .catch(function(error) {
-            console.log(error);
-          });
+          .catch(function (error) {
+            console.log(error)
+          })
       } else {
-        this.popupVisible3 = true;
+        this.popupVisible3 = true
         setTimeout(() => {
-          this.popupVisible3 = false;
-        }, 2000);
+          this.popupVisible3 = false
+        }, 2000)
       }
 
-      this.isAddCategory = true;
-      this.isUpdateCategory = false;
-      this.category = "";
+      this.isAddCategory = true
+      this.isUpdateCategory = false
+      this.category = ''
     },
-    updateCategoryNo() {
-      this.isAddCategory = true;
-      this.isUpdateCategory = false;
-      this.category = "";
+    updateCategoryNo () {
+      this.isAddCategory = true
+      this.isUpdateCategory = false
+      this.category = ''
     }
   }
-};
+}
 </script>
 
 <style scoped>
